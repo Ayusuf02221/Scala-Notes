@@ -12,7 +12,7 @@ customers.name               ❌ List[Customer] has no `.name`
 x => (x.name, x.age)         ✅ One tuple
 x => x.name, x.age           ❌ Two expressions — not allowed
 
-📌 Rule: Always return a single value from a function body. Use tuples or case classes to group multiple values.
+📌 Rule: Always return a single value from a function body. Use tuples or case classes or () to group multiple values.
 --------------------------------------------------------------------------------------------------------------------------
 🔹 3. Law of .map vs .flatMap
 ❗ Use .map if your lambda returns one item
