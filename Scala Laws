@@ -75,3 +75,4 @@ List[Transaction].map(_.amount.get)     ❌ unsafe unless guaranteed
 
 📌 Rule: Always know what type you're passing and receiving — Scala's type system protects you if you respect it.
 --------------------------------------------------------------------------------------------------------------------------
+
