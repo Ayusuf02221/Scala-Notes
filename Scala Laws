@@ -1,0 +1,77 @@
+🔹 1. Law of Field Access
+❗ You cannot access a field from a list — only from the individual objects inside the list.
+
+customers.map(_.name)        ✅ Access name from each customer
+customers.name               ❌ List[Customer] has no `.name`
+
+📌 Rule: You must .map or loop to get inside each element.
+--------------------------------------------------------------------------------------------------------------------------
+🔹 2. Law of Lambda Return Values
+❗ A lambda like x => ... must return one single value, not multiple expressions.
+
+x => (x.name, x.age)         ✅ One tuple
+x => x.name, x.age           ❌ Two expressions — not allowed
+
+📌 Rule: Always return a single value from a function body. Use tuples or case classes to group multiple values.
+--------------------------------------------------------------------------------------------------------------------------
+🔹 3. Law of .map vs .flatMap
+❗ Use .map if your lambda returns one item
+❗ Use .flatMap if your lambda returns a list (or any wrapper like Option, Future, etc.)
+
+List("A", "B").map(x => List(x, x + "!"))
+// → List(List("A", "A!"), List("B", "B!"))
+
+List("A", "B").flatMap(x => List(x, x + "!"))
+// → List("A", "A!", "B", "B!")
+
+📌 Rule: Use .flatMap when you return nested structures and want them flattened automatically.
+--------------------------------------------------------------------------------------------------------------------------
+🔹 4. Law of Option Safety
+❌ Never blindly use .get on an Option
+✅ Use .map, .flatMap, .getOrElse, or pattern match
+
+opt.map(_ + 1)               ✅ Safe
+opt.get                      ❌ Unsafe — throws exception if None
+opt.getOrElse(0)             ✅ Safe fallback
+
+📌 Rule: If it can be None, assume it will be. Always unwrap safely.
+--------------------------------------------------------------------------------------------------------------------------
+🔹 5. Law of Purity & Immutability
+Functional Scala avoids side effects.
+Every function should produce the same output for the same input.
+
+No mutation
+No printing to console
+No hidden state
+
+📌 Rule: Transform inputs → outputs, without modifying the inputs.
+--------------------------------------------------------------------------------------------------------------------------
+🔹 6. Law of Shape Consistency
+The type of each transformation matters.
+You must always know: What shape am I producing at this step?
+
+.map returns A → B             // same number of elements
+.flatMap returns A → List[B]  // flattens nested output
+.groupBy returns Map[K, List[V]]
+
+📌 Rule: Understand what your list turns into after each transformation.
+--------------------------------------------------------------------------------------------------------------------------
+🔹 7. Law of Expression Chains
+Functional style builds up transformations in steps, not with temporary state.
+
+  .filter(...)
+  .map(...)
+  .groupBy(...)
+  .mapValues(...)
+  
+📌 Rule: Chain functions when they’re pure and readable. Break into vals when clarity suffers.
+--------------------------------------------------------------------------------------------------------------------------
+
+🔹 8. Law of Type Safety
+If it compiles, it works — as long as the types line up.
+
+List[Option[Double]].flatMap(identity)  ✅
+List[Transaction].map(_.amount.get)     ❌ unsafe unless guaranteed
+
+📌 Rule: Always know what type you're passing and receiving — Scala's type system protects you if you respect it.
+--------------------------------------------------------------------------------------------------------------------------
